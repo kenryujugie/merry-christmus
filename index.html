@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Kukkuu 🎁</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#f7fbff,#e9f2f9);
+      overflow:hidden;
+    }
+    .snow{position:absolute;inset:0;pointer-events:none}
+    .snow span{
+      position:absolute;
+      width:6px;height:6px;
+      background:#cfe6f7;
+      border-radius:50%;
+      opacity:.7;
+      animation:fall linear infinite;
+    }
+    @keyframes fall{
+      from{transform:translateY(-10vh)}
+      to{transform:translateY(110vh)}
+    }
+    .screen{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      transition:opacity .5s, transform .5s;
+    }
+    .hidden{opacity:0;pointer-events:none;transform:scale(.96)}
+    h1,h2{
+      font-family:'Playfair Display',serif;
+      font-weight:400;
+      text-align:center;
+      margin-bottom:12px;
+    }
+    .subtitle{opacity:.7;margin-bottom:20px;text-align:center}
+    .card{
+      background:white;
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 20px 40px rgba(0,0,0,.12);
+      text-align:center;
+      max-width:340px;
+    }
+    .tap-btn{
+      margin-top:18px;
+      padding:14px 28px;
+      border:none;
+      border-radius:999px;
+      background:linear-gradient(135deg,#6fb1ff,#4e8cff);
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,90px);
+      gap:14px;
+      margin-top:24px;
+      justify-content:center;
+    }
+    .note{
+      width:90px;height:90px;
+      background:#fdecec;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:500;
+      box-shadow:0 10px 20px rgba(0,0,0,.12);
+      cursor:pointer;
+      transition:transform .25s;
+    }
+    .note:hover{transform:translateY(-4px)}
+    .gift{
+      font-size:70px;
+      cursor:pointer;
+      margin-top:10px;
+      animation:bounce 2s infinite;
+    }
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .final{
+      max-width:360px;
+      background:white;
+      padding:26px;
+      border-radius:20px;
+      box-shadow:0 25px 50px rgba(0,0,0,.15);
+      text-align:center;
+      line-height:1.6;
+    }
+  </style>
+</head>
+<body>
+
+<!-- snow -->
+<div class="snow" id="snow"></div>
+
+<!-- Screen 1 -->
+<div class="screen" id="s1">
+  <h1>Merry Christmas<br>to my Cutiepie</h1>
+  <div class="card">
+    <p>This Christmas, I just want you to know how special you are to me.</p>
+    <button class="tap-btn" onclick="go(2)">Tap to read</button>
+  </div>
+</div>
+
+<!-- Screen 2 -->
+<div class="screen hidden" id="s2">
+  <h2>Just for you</h2>
+  <p class="subtitle">I don’t need a gift, because…</p>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- Screen 3 -->
+<div class="screen hidden" id="s3">
+  <h2>This Christmas,<br>something special for you</h2>
+  <div class="gift" onclick="go(4)">🎁</div>
+  <p class="subtitle">Tap me</p>
+</div>
+
+<!-- Screen 4 -->
+<div class="screen hidden" id="s4">
+  <div class="final">
+    <h2>Kukkuu 💗</h2>
+    <p>
+      You are not just a part of my life —
+      you are the reason behind so many smiles,
+      calm moments, and warm feelings.
+      <br><br>
+      With you, even the simplest days feel special.
+      And honestly… you are my favorite gift,
+      today and always.
+    </p>
+  </div>
+</div>
+
+<script>
+  // navigation
+  function go(n){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+    document.getElementById('s'+n).classList.remove('hidden');
+  }
+
+  // grid logic
+  const words=['You','are','my','cutest','gift 💝'];
+  const grid=document.getElementById('grid');
+  let opened=0;
+  words.forEach(w=>{
+    const d=document.createElement('div');
+    d.className='note';
+    d.textContent='❤';
+    d.onclick=()=>{
+      if(d.dataset.opened) return;
+      d.textContent=w;
+      d.dataset.opened=1;
+      opened++;
+      if(opened===words.length){setTimeout(()=>go(3),600)}
+    };
+    grid.appendChild(d);
+  });
+
+  // snow
+  const snow=document.getElementById('snow');
+  for(let i=0;i<30;i++){
+    const s=document.createElement('span');
+    s.style.left=Math.random()*100+'vw';
+    s.style.animationDuration=4+Math.random()*6+'s';
+    s.style.opacity=Math.random();
+    snow.appendChild(s);
+  }
+</script>
+
+</body>
+</html>
